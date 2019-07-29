@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python36
 import os
 import sys
 import getpass
@@ -17,6 +17,12 @@ def usage():
     print("  deluser <username> - delete a user")
     print("  lsuser             - list users")
     print("  passwd <username>  - change password of a user")
+
+def inituser(username, password):
+    # one line create user for dockerfile, username equal password.
+    user_manager = get_user_manager(config)
+    user_manager.add_user(username, password)
+    print('Done.')
 
 def adduser(username):
     password = getpass.getpass("Enter password for {}: ".format(username))
@@ -61,6 +67,7 @@ def main():
         "deluser": deluser,
         "lsuser": lsuser,
         "passwd": passwd,
+        "inituser": inituser,
     }
 
     if argc < 2:
@@ -69,6 +76,10 @@ def main():
 
     c = sys.argv[1]
     try:
+        if c == 'inituser':
+            username, password = sys.argv[2:]
+            cmds[c](username, password)
+            return 
         if argc > 2:
             for arg in sys.argv[2:]:
                 cmds[c](arg)

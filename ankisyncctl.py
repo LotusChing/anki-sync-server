@@ -1,4 +1,4 @@
-#!/usr/bin/env python36
+#!/usr/bin/env python
 import os
 import sys
 import getpass
